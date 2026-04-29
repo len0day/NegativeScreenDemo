@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.demo.negative">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:label="负一屏Demo"
+        android:icon="@drawable/ic_launcher"
+        android:theme="@style/AppTheme">
+
+        <!-- Widget Provider -->
+        <receiver
+            android:name=".provider.NegativeScreenWidgetProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:label="智慧屏 Demo">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/negative_screen_widget_info" />
+        </receiver>
+
+        <!-- Service -->
+        <service
+            android:name=".service.NegativeScreenService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!-- Main Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Negative Screen Activity -->
+        <activity
+            android:name=".NegativeScreenActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+
+    </application>
+
+</manifest>

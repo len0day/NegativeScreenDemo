@@ -1,0 +1,19 @@
+# Build
+.gradle/
+build/
+app/build/
+*.apk
+*.aar
+
+# IDE
+.idea/
+.DS_Store
+*.iml
+
+# Local
+local.properties
+*.log
+
+# Temp files
+*.bak
+*.tmp

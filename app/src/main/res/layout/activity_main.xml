@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center"
+    android:background="#F5F5F5">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="负一屏 WebView Demo"
+        android:textSize="24sp"
+        android:textColor="#333333"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Android 智慧屏演示"
+        android:textSize="14sp"
+        android:textColor="#666666" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="#E0E0E0" />
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="打开负一屏"
+        android:textSize="16sp"
+        android:onClick="openNegativeScreen"
+        android:background="#667EEA"
+        android:textColor="#FFFFFF"
+        android:padding="16dp" />
+
+    <Button
+        android:id="@+id/btn_stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="停止负一屏"
+        android:textSize="16sp"
+        android:onClick="stopNegativeScreen"
+        android:background="#764BA2"
+        android:textColor="#FFFFFF"
+        android:padding="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="说明：\n1. 点击「打开负一屏」全屏展示 H5 页面\n2. 点击「关闭」按钮退出负一屏\n3. 负一屏会显示实时时钟和快捷功能卡片"
+        android:textSize="12sp"
+        android:textColor="#999999"
+        android:lineSpacingExtra="4dp" />
+
+</LinearLayout>

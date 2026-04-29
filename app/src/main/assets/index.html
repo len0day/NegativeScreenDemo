@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>智慧屏 Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        .header {
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .header p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 16px;
+            backdrop-filter: blur(10px);
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .card-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .card-item:last-child { border-bottom: none; }
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-right: 12px;
+        }
+        .card-content { flex: 1; }
+        .card-label { font-size: 14px; margin-bottom: 2px; }
+        .card-value { font-size: 12px; opacity: 0.7; }
+        .time-display {
+            text-align: center;
+            padding: 20px;
+        }
+        .time {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        .date {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 8px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>智慧屏 Demo</h1>
+        <p>负一屏 WebView 演示页面</p>
+    </div>
+
+    <div class="time-display">
+        <div class="time" id="clock">--:--</div>
+        <div class="date" id="date">----年--月--日 --</div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">快捷功能</div>
+        <div class="card-item">
+            <div class="card-icon">📱</div>
+            <div class="card-content">
+                <div class="card-label">快捷开关</div>
+                <div class="card-value">WiFi / 蓝牙 / 勿扰</div>
+            </div>
+        </div>
+        <div class="card-item">
+            <div class="card-icon">☀️</div>
+            <div class="card-content">
+                <div class="card-label">天气</div>
+                <div class="card-value">多云 24°C</div>
+            </div>
+        </div>
+        <div class="card-item">
+            <div class="card-icon">📅</div>
+            <div class="card-content">
+                <div class="card-label">日程</div>
+                <div class="card-value">明日 10:00 会议</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        NegativeScreen Demo v1.0
+    </div>
+
+    <script>
+        // 实时时钟
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clock').textContent = hours + ':' + minutes;
+
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const day = now.getDate();
+            const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+            const weekday = weekdays[now.getDay()];
+            document.getElementById('date').textContent =
+                year + '年' + month + '月' + day + '日 星期' + weekday;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // 监听来自 Android 的消息
+        function receiveMessage(event) {
+            console.log('Received message:', event.data);
+            // 处理 Android 传来的数据
+            try {
+                const data = JSON.parse(event.data);
+                if (data.type === 'weather') {
+                    console.log('Weather data:', data.content);
+                }
+            } catch (e) {
+                console.log('Non-JSON message:', event.data);
+            }
+        }
+
+        window.addEventListener('message', receiveMessage);
+
+        // 向 Android 发送消息
+        function sendToAndroid(message) {
+            if (window.AndroidInterface && window.AndroidInterface.sendMessage) {
+                window.AndroidInterface.sendMessage(JSON.stringify(message));
+            } else {
+                console.log('Android interface not available');
+            }
+        }
+
+        // 点击事件示例
+        document.querySelectorAll('.card-item').forEach(item => {
+            item.addEventListener('click', () => {
+                sendToAndroid({ type: 'action', target: 'card_item_click' });
+            });
+        });
+    </script>
+</body>
+</html>
